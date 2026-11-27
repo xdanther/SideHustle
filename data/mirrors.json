@@ -1,7 +1,0 @@
-{
-  "2.5": {
-    "url": "https://codeberg.org/Altrew/MeloNX/releases/download/2.5/MeloNX.ipa",
-    "size": 48655413,
-    "note": "Official 2.5 build (same byte size as starforgejo's asset), re-hosted on Codeberg, which answers plain downloads without a bot challenge."
-  }
-}
