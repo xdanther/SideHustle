@@ -22,6 +22,10 @@ const CONFIG = {
   apiUrl: "https://starforgejo.dev/api/v1/repos/projects/MeloNX/releases?limit=50",
   snapshot: resolve(ROOT, "data/releases.json"),
   output: resolve(ROOT, "source.json"),
+  // Public URL this file is served from. Required by the AltStore source spec
+  // (and by LiveContainer's parser), so it must match where the file really lives.
+  sourceURL: "https://raw.githubusercontent.com/xdanther/SideHustle/main/source.json",
+  identifier: "com.xdanther.melonx.source",
 
   // Values taken from the app itself:
   //   CFBundleIdentifier = com.stossy11.MeloNX  (PRODUCT_BUNDLE_IDENTIFIER, MeloNX.xcodeproj)
@@ -152,6 +156,8 @@ function buildVersions(releases) {
 function buildSource(versions) {
   return {
     name: "MeloNX",
+    identifier: CONFIG.identifier,
+    sourceURL: CONFIG.sourceURL,
     subtitle: "Nintendo Switch emulation for iOS, from the official MeloNX releases",
     description: DESCRIPTION,
     iconURL: CONFIG.iconURL,
@@ -201,6 +207,12 @@ function validate(source) {
   const app = source.apps[0];
   const problems = [];
 
+  for (const key of ["name", "identifier", "sourceURL"]) {
+    if (!source[key]) problems.push(`source.${key} is missing`);
+  }
+  if (!Array.isArray(source.apps) || source.apps.length === 0) {
+    problems.push("source.apps is empty");
+  }
   if (source.apps.length !== 1) problems.push("expected exactly one app");
   for (const key of ["bundleIdentifier", "developerName", "localizedDescription", "iconURL"]) {
     if (!app[key]) problems.push(`app.${key} is missing`);

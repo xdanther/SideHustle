@@ -1,5 +1,7 @@
 {
   "name": "MeloNX",
+  "identifier": "com.xdanther.melonx.source",
+  "sourceURL": "https://raw.githubusercontent.com/xdanther/SideHustle/main/source.json",
   "subtitle": "Nintendo Switch emulation for iOS, from the official MeloNX releases",
   "description": "MeloNX is an open-source Nintendo Switch emulator for iPhone and iPad,\nbuilt on Ryujinx and written in C# and Swift.\n\n**This is an unofficial community source.** It only mirrors the .ipa files\npublished on the official MeloNX releases page; it does not host, modify or\nrepackage anything.\n\nRequirements:\n- MeloNX **requires JIT** and cannot run without it (e.g. StikDebug on iOS 26).\n- The *Increased Memory Limit* entitlement is required on all devices; the\n  *Extended Virtual Addressing* entitlement is required on iPhones with under\n  4 GB RAM and iPads with under 8 GB RAM.\n- Sideload with AltStore Classic, SideStore or another Apple ID sideloader.\n  AltStore PAL is not supported because the app is not notarized.\n- You must supply your own firmware, keys and game dumps. Piracy is not supported.",
   "iconURL": "https://melonx.org/logo.png",

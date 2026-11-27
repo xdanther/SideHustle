@@ -18,6 +18,13 @@ https://raw.githubusercontent.com/xdanther/SideHustle/main/source.json
 
 - **AltStore / SideStore:** Sources → **+** → paste the URL above.
 - Or tap: `altstore://source?url=https://raw.githubusercontent.com/xdanther/SideHustle/main/source.json`
+- **LiveContainer:** Sources → **+** → paste the same URL, or tap
+  `livecontainer://source?url=https://raw.githubusercontent.com/xdanther/SideHustle/main/source.json`
+
+Use the `raw.githubusercontent.com` URL exactly as written. The GitHub *file
+page* URL (`github.com/.../blob/main/source.json`) returns HTML, and
+`data/releases.json` is a raw API snapshot, not a source — either one fails with
+"Unable to refresh this source" / "the source file is not valid".
 
 AltStore PAL is not supported: MeloNX is not notarized, so it needs AltStore
 Classic (or SideStore) signing with an Apple ID.
