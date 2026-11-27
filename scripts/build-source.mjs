@@ -22,6 +22,11 @@ const CONFIG = {
   apiUrl: "https://starforgejo.dev/api/v1/repos/projects/MeloNX/releases?limit=50",
   snapshot: resolve(ROOT, "data/releases.json"),
   output: resolve(ROOT, "source.json"),
+  // version -> plain-HTTP mirror of the same .ipa (see data/mirrors.json).
+  mirrors: resolve(ROOT, "data/mirrors.json"),
+  // Hosts that answer non-browser download requests with a Cloudflare/Anubis
+  // bot challenge, so a sideloader receives HTML instead of the .ipa.
+  blockedDownloadHosts: ["starforgejo.dev", "git.ryujinx.app", "git.743378673.xyz"],
   // Public URL this file is served from. Required by the AltStore source spec
   // (and by LiveContainer's parser), so it must match where the file really lives.
   sourceURL: "https://raw.githubusercontent.com/xdanther/SideHustle/main/source.json",
@@ -59,6 +64,11 @@ const DESCRIPTION = [
   "- Sideload with AltStore Classic, SideStore or another Apple ID sideloader.",
   "  AltStore PAL is not supported because the app is not notarized.",
   "- You must supply your own firmware, keys and game dumps. Piracy is not supported.",
+  "",
+  "Only releases that are also mirrored on a plain-HTTP host are listed here,",
+  "because starforgejo.dev answers in-app downloads with a bot challenge. Newer",
+  "official releases are still on starforgejo.dev: download those in Safari and",
+  "use LiveContainer/AltStore's \"install IPA file\" option.",
 ].join("\n");
 
 /** "2.0.0" for releases titled like a version, otherwise the git tag. */
@@ -103,7 +113,26 @@ async function loadReleases(useRemote) {
   return JSON.parse(await readFile(CONFIG.snapshot, "utf8"));
 }
 
-function buildVersions(releases) {
+async function loadMirrors() {
+  try {
+    return JSON.parse(await readFile(CONFIG.mirrors, "utf8"));
+  } catch (error) {
+    if (error.code === "ENOENT") return {};
+    throw error;
+  }
+}
+
+function isBlockedDownload(url) {
+  let host;
+  try {
+    host = new URL(url).hostname.toLowerCase();
+  } catch {
+    return true;
+  }
+  return CONFIG.blockedDownloadHosts.some((blocked) => host === blocked || host.endsWith(`.${blocked}`));
+}
+
+function buildVersions(releases, mirrors) {
   const versions = [];
 
   for (const release of releases) {
@@ -150,7 +179,30 @@ function buildVersions(releases) {
   });
 
   if (unique.length === 0) throw new Error("No .ipa releases found");
-  return unique;
+
+  // A sideloader can only install what it can download with a plain request, so
+  // a release is listed when it has a mirror that is not behind a bot challenge.
+  const installable = [];
+  for (const entry of unique) {
+    const mirror = mirrors[entry.version];
+    if (mirror?.url && !isBlockedDownload(mirror.url)) {
+      if (mirror.url !== entry.downloadURL) {
+        console.log(`Using mirror for ${entry.version}: ${mirror.url}`);
+      }
+      entry.downloadURL = mirror.url;
+      if (Number.isInteger(mirror.size) && mirror.size > 0) entry.size = mirror.size;
+      installable.push(entry);
+    } else if (!isBlockedDownload(entry.downloadURL)) {
+      installable.push(entry);
+    } else {
+      console.warn(`Skipping ${entry.version}: no mirror, and ${new URL(entry.downloadURL).host} blocks app downloads`);
+    }
+  }
+
+  if (installable.length === 0) {
+    throw new Error("No installable release: every version is behind a bot-challenged download host");
+  }
+  return installable;
 }
 
 function buildSource(versions) {
@@ -240,7 +292,8 @@ function validate(source) {
 
 const useRemote = process.argv.includes("--remote");
 const releases = await loadReleases(useRemote);
-const versions = buildVersions(releases);
+const mirrors = await loadMirrors();
+const versions = buildVersions(releases, mirrors);
 const source = buildSource(versions);
 validate(source);
 await writeFile(CONFIG.output, `${JSON.stringify(source, null, 2)}\n`);

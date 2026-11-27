@@ -3,7 +3,7 @@
   "identifier": "com.xdanther.melonx.source",
   "sourceURL": "https://raw.githubusercontent.com/xdanther/SideHustle/main/source.json",
   "subtitle": "Nintendo Switch emulation for iOS, from the official MeloNX releases",
-  "description": "MeloNX is an open-source Nintendo Switch emulator for iPhone and iPad,\nbuilt on Ryujinx and written in C# and Swift.\n\n**This is an unofficial community source.** It only mirrors the .ipa files\npublished on the official MeloNX releases page; it does not host, modify or\nrepackage anything.\n\nRequirements:\n- MeloNX **requires JIT** and cannot run without it (e.g. StikDebug on iOS 26).\n- The *Increased Memory Limit* entitlement is required on all devices; the\n  *Extended Virtual Addressing* entitlement is required on iPhones with under\n  4 GB RAM and iPads with under 8 GB RAM.\n- Sideload with AltStore Classic, SideStore or another Apple ID sideloader.\n  AltStore PAL is not supported because the app is not notarized.\n- You must supply your own firmware, keys and game dumps. Piracy is not supported.",
+  "description": "MeloNX is an open-source Nintendo Switch emulator for iPhone and iPad,\nbuilt on Ryujinx and written in C# and Swift.\n\n**This is an unofficial community source.** It only mirrors the .ipa files\npublished on the official MeloNX releases page; it does not host, modify or\nrepackage anything.\n\nRequirements:\n- MeloNX **requires JIT** and cannot run without it (e.g. StikDebug on iOS 26).\n- The *Increased Memory Limit* entitlement is required on all devices; the\n  *Extended Virtual Addressing* entitlement is required on iPhones with under\n  4 GB RAM and iPads with under 8 GB RAM.\n- Sideload with AltStore Classic, SideStore or another Apple ID sideloader.\n  AltStore PAL is not supported because the app is not notarized.\n- You must supply your own firmware, keys and game dumps. Piracy is not supported.\n\nOnly releases that are also mirrored on a plain-HTTP host are listed here,\nbecause starforgejo.dev answers in-app downloads with a bot challenge. Newer\nofficial releases are still on starforgejo.dev: download those in Safari and\nuse LiveContainer/AltStore's \"install IPA file\" option.",
   "iconURL": "https://melonx.org/logo.png",
   "headerURL": "https://melonx.org/logo.png",
   "website": "https://melonx.org",
@@ -24,163 +24,11 @@
       "category": "entertainment",
       "versions": [
         {
-          "version": "2.7",
-          "date": "2026-10-11T01:14:40-04:00",
-          "localizedDescription": "# Highlights\r\n- Ram Limit Workaround using NSExtensions and `xpc_shmem`\r\n    - This does NOT contribute to the in-app \"Memory limit tester \"\r\n- In-App Controller Remapping\r\n- Controller Navigation \r\n- (experimental) Steam Controller Support via CoreBluetooth\r\n- iOS 27 AirPlay Support\r\n- Add MetalFX Upscaling\r\n\r\n# Full Changelog\r\n## Core & Graphics\r\n- Improved Async Shader Compilation\r\n- NSExtensions and `xpc_shmem` for offloading Guest RAM to NSExtensions, shared mem does not contribute to the main app's `phys_footprint`\r\n- Fix fragment ClipDistance SPIR-V lookup\r\n- Add BCn > ETC2 Texture Recompression for GPUs that do not support BCn\r\n- Memory Pressure GPU Buffer Eviction\r\n- Add MetalFX Spatial Upscaling\r\n- Fix Audio Issues in some games\r\n\r\n## UI & Controllers\r\n- Game List Controller Navigation\r\n- Full Controller Remapping\r\n- Fix Opacity with Virtual Controls\r\n- Move Firmware Importing off the Main Thread and Improve Error Reporting\r\n- (experimental) Steam Controller Support via CoreBluetooth\r\n- Anti-Aliasing option added to Settings\r\n- Fix Virtual Controller not disabling when option is enabled.\r\n- Improve Per-Game Settings\r\n- Open Save Folder option",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/2.7/MeloNX.ipa",
-          "size": 49196463,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "2.6",
-          "date": "2026-08-26T09:23:25-04:00",
-          "localizedDescription": "MeloNX 2.6",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/2.6/MeloNX.ipa",
-          "size": 48808901,
-          "minOSVersion": "15.0"
-        },
-        {
           "version": "2.5",
           "date": "2026-07-19T06:09:19-04:00",
           "localizedDescription": "MeloNX 2.5",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/2.5/MeloNX.ipa",
+          "downloadURL": "https://codeberg.org/Altrew/MeloNX/releases/download/2.5/MeloNX.ipa",
           "size": 48655413,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "2.4",
-          "date": "2026-07-09T21:28:28-04:00",
-          "localizedDescription": "MeloNX 2.4",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/2.4/MeloNX.ipa",
-          "size": 48573887,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "2.3.1",
-          "date": "2026-03-01T04:58:14-05:00",
-          "localizedDescription": "Fix Main Thread Lockups, Joystick not being in the right order, Setup not working.",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/2.3.1/MeloNX.ipa",
-          "size": 94207474,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "2.3",
-          "date": "2026-02-28T05:52:40-05:00",
-          "localizedDescription": "UI Update, Updated JIT Compiler, Remove Unecessary Dependencies...",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/2.3/MeloNX.ipa",
-          "size": 94210994,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "2.2",
-          "date": "2025-12-27T02:13:59-05:00",
-          "localizedDescription": "Allow Pausing and Disabling Music",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/2.2/MeloNX.ipa",
-          "size": 64919190,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "2.1",
-          "date": "2025-11-02T07:38:36-05:00",
-          "localizedDescription": "A lot",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/2.1/MeloNX.ipa",
-          "size": 57118399,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "2.0.1",
-          "date": "2025-06-12T21:40:24-04:00",
-          "localizedDescription": "Update UpdateAndBindTexturesWithoutTemplate to have the proper UE changes",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/2.0.1/MeloNX.ipa",
-          "size": 61021673,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "2.0.0",
-          "date": "2025-06-12T17:03:22-04:00",
-          "localizedDescription": "App Icon Switcher, Per-App Settings Page, Update Virtual Controller and more",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/1.8.0/MeloNX.ipa",
-          "size": 61022098,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "1.7.0",
-          "date": "2025-03-20T06:33:28-04:00",
-          "localizedDescription": "Updated JitStreamer Implementation, Reimplemented Texture Chunks, Reworked Alerts and more",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/1.7.0/MeloNX.ipa",
-          "size": 52731658,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "1.6.0",
-          "date": "2025-03-13T02:18:42-04:00",
-          "localizedDescription": "Update version number",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/1.6.0/MeloNX.ipa",
-          "size": 52682854,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "1.5.0",
-          "date": "2025-03-08T17:10:37-05:00",
-          "localizedDescription": "Fix dependency",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/1.5.0/MeloNX.ipa",
-          "size": 54006362,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "1.4.0",
-          "date": "2025-03-05T20:09:38-05:00",
-          "localizedDescription": "Fix Mii maker",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/1.4.0/MeloNX.ipa",
-          "size": 71888063,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "1.3.1",
-          "date": "2025-03-01T05:31:33-05:00",
-          "localizedDescription": "Tag created by GitLabCli",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/1.3.1/MeloNX.ipa",
-          "size": 71777128,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "1.3.0",
-          "date": "2025-03-01T05:06:09-05:00",
-          "localizedDescription": "New gitignore",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/1.3.0/MeloNX.ipa",
-          "size": 71775655,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "1.2.1",
-          "date": "2025-02-16T15:40:56-05:00",
-          "localizedDescription": "Change version number",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/1.2.1/MeloNX.ipa",
-          "size": 71718243,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "1.2.0",
-          "date": "2025-02-16T01:29:09-05:00",
-          "localizedDescription": "Add Entitlement Checker and Memory",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/1.2.0/MeloNX.ipa",
-          "size": 71712076,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "1.1.0",
-          "date": "2025-02-12T20:56:20-05:00",
-          "localizedDescription": "Set Version to 1.1.0",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/1.1.0/MeloNX.ipa",
-          "size": 70510805,
-          "minOSVersion": "15.0"
-        },
-        {
-          "version": "1.0.0",
-          "date": "2025-02-12T02:19:51-05:00",
-          "localizedDescription": "Remove func MainThread and add SDL Window code back",
-          "downloadURL": "https://starforgejo.dev/projects/MeloNX/releases/download/1.0.0/MeloNX.ipa",
-          "size": 70503925,
           "minOSVersion": "15.0"
         }
       ],

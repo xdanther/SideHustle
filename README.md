@@ -29,26 +29,29 @@ page* URL (`github.com/.../blob/main/source.json`) returns HTML, and
 AltStore PAL is not supported: MeloNX is not notarized, so it needs AltStore
 Classic (or SideStore) signing with an Apple ID.
 
-## Installing in LiveContainer / AltStore (read this first)
+## Why only some versions are listed
 
-The catalog works, but **installing from inside the app does not**: the `.ipa`
-files live on `starforgejo.dev`, which puts every request that is not a real
-browser behind Anubis (JavaScript proof-of-work) and Cloudflare's "Just a
-moment" challenge. A sideloader downloads with a plain HTTP client, gets that
-challenge page instead of the file, and reports `Please provide an IPA file to
-install.` or a decompression failure. This affects AltStore, SideStore and
-LiveContainer equally, and no URL or header variation avoids it.
+`starforgejo.dev` puts every request that is not a real browser behind Anubis
+(JavaScript proof-of-work) and Cloudflare's "Just a moment" challenge. A
+sideloader downloads with a plain HTTP client, so it receives the challenge page
+instead of the `.ipa` and reports `Please provide an IPA file to install.` — for
+AltStore, SideStore and LiveContainer alike. No URL or header variation avoids it.
 
-Workaround that works today:
+So the source only lists releases that are **also mirrored on a host that serves
+plain downloads** (`data/mirrors.json`); the Install button therefore works.
+Today that is **2.5**, a byte-for-byte copy of the official 2.5 asset
+(48,655,413 bytes) hosted on Codeberg. 2.6 and 2.7 are not listed because no
+plain mirror of them exists yet.
+
+To install a newer release:
 
 1. Open https://starforgejo.dev/projects/MeloNX/releases in Safari and download
    the `.ipa` (the browser solves the challenge).
 2. In LiveContainer go to **Apps → (+) → Install IPA File**, then pick the
    downloaded file from Files → Downloads.
 
-A one-click install would need the IPA re-hosted somewhere that serves plain
-HTTP downloads, such as a GitHub release in this repository; the source can be
-pointed at that mirror.
+To make a newer version installable from the source, add its mirror to
+`data/mirrors.json` and run `node scripts/build-source.mjs`.
 
 ## Before you install
 
@@ -65,6 +68,7 @@ pointed at that mirror.
 | `source.json` | The generated AltStore source. Do not edit by hand. |
 | `scripts/build-source.mjs` | Builds `source.json` from the Forgejo releases API. |
 | `data/releases.json` | Snapshot of the last successful API response. |
+| `data/mirrors.json` | Per-version plain-HTTP mirror of the same `.ipa`. Only mirrored versions are published, because starforgejo.dev blocks in-app downloads. |
 | `.github/workflows/update-source.yml` | Scheduled job that refreshes and commits `source.json`. |
 
 Fields that cannot come from the release list are taken from the app itself:
