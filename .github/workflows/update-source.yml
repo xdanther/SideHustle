@@ -37,12 +37,12 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add source.json data/releases.json
+          git add source.json data/releases.json data/byetunes.json
           if git diff --cached --quiet; then
             echo "source.json is already up to date"
             exit 0
           fi
-          VERSION=$(node -p "require('./source.json').apps[0].versions[0].version")
-          echo "::notice::MeloNX $VERSION is available in the source"
-          git commit -m "chore: refresh MeloNX releases into source.json (latest $VERSION)"
+          LATEST=$(node -p "require('./source.json').apps.map(a => a.name + ' ' + a.versions[0].version).join(', ')")
+          echo "::notice::Latest in the source: $LATEST"
+          git commit -m "chore: refresh app releases into source.json ($LATEST)"
           git push

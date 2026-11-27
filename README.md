@@ -1,12 +1,16 @@
-# MeloNX — AltStore source
+# MeloNX + ByeTunes — AltStore source
 
-An [AltStore Classic](https://faq.altstore.io/developers/make-a-source) source that
-mirrors the official **MeloNX** releases
-([starforgejo.dev/projects/MeloNX/releases](https://starforgejo.dev/projects/MeloNX/releases))
-so MeloNX can be installed and updated straight from AltStore / SideStore.
+One [AltStore Classic](https://faq.altstore.io/developers/make-a-source) source
+for two apps, so both can be installed and updated from AltStore, SideStore or
+LiveContainer:
 
-This is an unofficial community mirror. It only points at the `.ipa` files the
-MeloNX team publishes; nothing is re-hosted or modified.
+| App | Releases | Bundle ID |
+| --- | --- | --- |
+| **MeloNX** — Nintendo Switch emulator | [starforgejo.dev/projects/MeloNX/releases](https://starforgejo.dev/projects/MeloNX/releases) | `com.stossy11.MeloNX` |
+| **ByeTunes** — add music without iTunes | [github.com/EduAlexxis/ByeTunes/releases](https://github.com/EduAlexxis/ByeTunes/releases) | `com.EduAlexxis.MusicManager` |
+
+This is an unofficial community source. It only points at the `.ipa` files each
+app's own developers publish; nothing is re-hosted or modified.
 
 ## Add the source
 
@@ -31,15 +35,18 @@ Classic (or SideStore) signing with an Apple ID.
 
 ## Installing in LiveContainer / AltStore (read this first)
 
-The catalog works, but **installing from inside the app does not**: the `.ipa`
-files live on `starforgejo.dev`, which puts every request that is not a real
-browser behind Anubis (JavaScript proof-of-work) and Cloudflare's "Just a
-moment" challenge. A sideloader downloads with a plain HTTP client, gets that
-challenge page instead of the file, and reports `Please provide an IPA file to
-install.` or a decompression failure. This affects AltStore, SideStore and
-LiveContainer equally, and no URL or header variation avoids it.
+**ByeTunes installs normally** — its `.ipa` files are GitHub release assets, and
+GitHub serves those to any client.
 
-Workaround that works today:
+**MeloNX does not install from inside the app**: its `.ipa` files live on
+`starforgejo.dev`, which puts every request that is not a real browser behind
+Anubis (JavaScript proof-of-work) and Cloudflare's "Just a moment" challenge. A
+sideloader downloads with a plain HTTP client, gets that challenge page instead
+of the file, and reports `Please provide an IPA file to install.` or a
+decompression failure. This affects AltStore, SideStore and LiveContainer
+equally, and no URL or header variation avoids it.
+
+Workaround for MeloNX:
 
 1. Open https://starforgejo.dev/projects/MeloNX/releases in Safari and download
    the `.ipa` (the browser solves the challenge).
@@ -63,25 +70,32 @@ pointed at that mirror.
 | File | Purpose |
 | --- | --- |
 | `source.json` | The generated AltStore source. Do not edit by hand. |
-| `scripts/build-source.mjs` | Builds `source.json` from the Forgejo releases API. |
-| `data/releases.json` | Snapshot of the last successful API response. |
-| `.github/workflows/update-source.yml` | Runs every 6 hours and on demand: refreshes from the releases API and commits `source.json` with the new version in the message, so a new MeloNX release shows up within a few hours. |
+| `scripts/build-source.mjs` | Builds `source.json` from both apps' release APIs. |
+| `data/releases.json` | MeloNX snapshot of the last successful API response. |
+| `data/byetunes.json` | ByeTunes snapshot of the last successful API response. |
+| `.github/workflows/update-source.yml` | Runs every 6 hours and on demand: refreshes both apps and commits `source.json` with the latest versions in the message, so a new release shows up within a few hours. |
 
-Fields that cannot come from the release list are taken from the app itself:
-`com.stossy11.MeloNX` (`PRODUCT_BUNDLE_IDENTIFIER`), iOS 15.0
-(`IPHONEOS_DEPLOYMENT_TARGET`) and the
-`com.apple.developer.kernel.increased-memory-limit` entitlement
-(`MeloNX.entitlements`).
+Fields that cannot come from the release list are taken from each app itself:
+
+- MeloNX: `com.stossy11.MeloNX` (`PRODUCT_BUNDLE_IDENTIFIER`), iOS 15.0
+  (`IPHONEOS_DEPLOYMENT_TARGET`), the
+  `com.apple.developer.kernel.increased-memory-limit` entitlement
+  (`MeloNX.entitlements`).
+- ByeTunes: `com.EduAlexxis.MusicManager` (`PRODUCT_BUNDLE_IDENTIFIER`),
+  iOS 16.0 (`IPHONEOS_DEPLOYMENT_TARGET`), icon from the app's
+  `Assets.xcassets` in its repository. Debug builds (`*-Debug.ipa`) are skipped
+  so the release build is the one installed.
 
 ### Local rebuild
 
 ```sh
-node scripts/build-source.mjs            # rebuild from data/releases.json
-node scripts/build-source.mjs --remote   # refresh from the API first
+node scripts/build-source.mjs            # rebuild from the committed snapshots
+node scripts/build-source.mjs --remote   # refresh both sources first
 ```
 
-The releases API is behind a Cloudflare bot challenge that rejects some
-datacenter IPs. When `--remote` fails, the script warns and falls back to the
-committed snapshot, so the workflow never produces a broken source. The script
-validates the result (required AltStore keys, unique versions, valid dates,
-sizes and download URLs) and exits non-zero on bad data.
+The MeloNX releases API is behind a Cloudflare bot challenge that rejects some
+datacenter IPs. When its `--remote` fetch fails, the script warns and falls back
+to the committed snapshot, so the workflow never produces a broken source (the
+ByeTunes API on GitHub is fetched normally). The script validates the result
+(required AltStore keys, unique versions per app, valid dates, sizes and
+`https` download URLs) and exits non-zero on bad data.
