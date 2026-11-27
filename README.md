@@ -29,6 +29,27 @@ page* URL (`github.com/.../blob/main/source.json`) returns HTML, and
 AltStore PAL is not supported: MeloNX is not notarized, so it needs AltStore
 Classic (or SideStore) signing with an Apple ID.
 
+## Installing in LiveContainer / AltStore (read this first)
+
+The catalog works, but **installing from inside the app does not**: the `.ipa`
+files live on `starforgejo.dev`, which puts every request that is not a real
+browser behind Anubis (JavaScript proof-of-work) and Cloudflare's "Just a
+moment" challenge. A sideloader downloads with a plain HTTP client, gets that
+challenge page instead of the file, and reports `Please provide an IPA file to
+install.` or a decompression failure. This affects AltStore, SideStore and
+LiveContainer equally, and no URL or header variation avoids it.
+
+Workaround that works today:
+
+1. Open https://starforgejo.dev/projects/MeloNX/releases in Safari and download
+   the `.ipa` (the browser solves the challenge).
+2. In LiveContainer go to **Apps → (+) → Install IPA File**, then pick the
+   downloaded file from Files → Downloads.
+
+A one-click install would need the IPA re-hosted somewhere that serves plain
+HTTP downloads, such as a GitHub release in this repository; the source can be
+pointed at that mirror.
+
 ## Before you install
 
 - MeloNX **requires JIT**; it will not run without it (StikDebug on iOS 26).
