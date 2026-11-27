@@ -2,8 +2,8 @@ name: Update AltStore source
 
 on:
   schedule:
-    # every 6 hours
-    - cron: "0 */6 * * *"
+    # once a day, 06:00 UTC
+    - cron: "0 6 * * *"
   workflow_dispatch:
   push:
     branches: [main]
@@ -42,5 +42,7 @@ jobs:
             echo "source.json is already up to date"
             exit 0
           fi
-          git commit -m "chore: refresh MeloNX releases into source.json"
+          VERSION=$(node -p "require('./source.json').apps[0].versions[0].version")
+          echo "::notice::MeloNX $VERSION is available in the source"
+          git commit -m "chore: refresh MeloNX releases into source.json (latest $VERSION)"
           git push

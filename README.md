@@ -65,7 +65,7 @@ pointed at that mirror.
 | `source.json` | The generated AltStore source. Do not edit by hand. |
 | `scripts/build-source.mjs` | Builds `source.json` from the Forgejo releases API. |
 | `data/releases.json` | Snapshot of the last successful API response. |
-| `.github/workflows/update-source.yml` | Scheduled job that refreshes and commits `source.json`. |
+| `.github/workflows/update-source.yml` | Runs daily (06:00 UTC) and on demand: refreshes from the releases API and commits `source.json` with the new version in the message, so a new MeloNX release shows up inside a day. |
 
 Fields that cannot come from the release list are taken from the app itself:
 `com.stossy11.MeloNX` (`PRODUCT_BUNDLE_IDENTIFIER`), iOS 15.0
