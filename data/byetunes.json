@@ -68,7 +68,7 @@
         "state": "uploaded",
         "size": 13164644,
         "digest": "sha256:c54193f3518b707988bb4769307650742721c284ab66c4d7173b37e52f15b373",
-        "download_count": 1349,
+        "download_count": 1359,
         "created_at": "2026-11-05T01:14:48Z",
         "updated_at": "2026-11-05T01:15:04Z",
         "browser_download_url": "https://github.com/EduAlexxis/ByeTunes/releases/download/v2.7/ByeTunes.ipa"
@@ -159,7 +159,7 @@
         "state": "uploaded",
         "size": 15631495,
         "digest": "sha256:255147243f05d35ae94e7f01a9c7c8bda7ef7b1ef0542a1008c9355c3045034f",
-        "download_count": 2221,
+        "download_count": 2224,
         "created_at": "2026-10-12T13:12:32Z",
         "updated_at": "2026-10-12T13:12:34Z",
         "browser_download_url": "https://github.com/EduAlexxis/ByeTunes/releases/download/v2.6/ByeTunes.v2.6.-.Version.fix.ipa"
@@ -250,7 +250,7 @@
         "state": "uploaded",
         "size": 16815108,
         "digest": "sha256:e21fb481fc6a1ba8d5702dc34c33afa522c8b799479e0f0a38ed4c98525a56fa",
-        "download_count": 1602,
+        "download_count": 1603,
         "created_at": "2026-08-31T00:38:50Z",
         "updated_at": "2026-08-31T00:38:53Z",
         "browser_download_url": "https://github.com/EduAlexxis/ByeTunes/releases/download/v2.5/ByeTunes.ipa"
